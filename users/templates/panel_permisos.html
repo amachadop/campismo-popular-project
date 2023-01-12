@@ -1,0 +1,91 @@
+{% extends 'layout/panel.html' %}
+
+{% block head %}
+    <title>Administrar permisos</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+{% endblock head %}
+
+{% block body %}
+
+{% load user_tags %}
+{% if request.user|has_perm:"auth.add_permission" %}
+    <div class="card border-0 shadow mt-4">
+        <div class="card-header list-group-item-dark p-3 d-flex">
+            <strong class="fw-bolder">Crear Permiso</strong>
+        </div>
+        <div class="card-body bg-light">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="nombre" class="fw-semibold text-dark mb-3">Nombre:</label>
+                    {{form.name}}
+                </div>
+
+                <div class="mb-4">
+                    <label for="selectContent" class="fw-semibold text-dark mb-3">ContentType:</label>
+                    {{form.content_type}}
+                </div>
+
+                <div class="mb-4">
+                    <label for="codename" class="fw-semibold text-dark mb-3">Codename:</label>
+                    {{form.codename}}
+                </div>
+
+                <div class="d-flex">
+                    <button class="btn btn-primary pt-2 pb-2 ms-auto" type="submit">
+                        <div class="d-flex">
+                            <span class="material-symbols-rounded text-light me-2">workspace_premium</span>
+                            Crear permiso
+                        </div>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>                
+{% endif %}
+
+
+
+<div class="card border-0 shadow mt-4 mb-4">
+    <div class="card-header list-group-item-dark p-3 d-flex">
+        <strong class="fw-bolder">Permisos</strong>
+    </div>
+    <div class="card-body bg-light">
+        <table class="table table-light table-striped table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">ContentType</th>
+                    <th scope="col">Codename</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in permisos %}
+                    <tr>
+                        <td>{{p.name}}</td>
+                        <td>{{p.content_type}}</td>
+                        <td>{{p.codename}}</td>
+                        <td>
+                            <div class="d-flex">
+                                
+                                {% if request.user|has_perm:"auth.delete_permission" %}
+                                    <a href="{% url 'eliminar_permisos' p.id %}" class="btn btn-danger ms-1"><span class="material-symbols-rounded">delete</span></a>
+                                {% endif %}
+                                
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+      </table>
+    </div>
+</div>
+{% endblock body %}
+
+{% block js %}
+
+{% endblock js %}

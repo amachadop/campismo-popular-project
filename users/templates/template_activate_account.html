@@ -1,0 +1,10 @@
+{% autoescape off %}
+Hola {{ user }},
+
+Sigue el siguiente enlace para verificar tu usuario en nuestro sitio web Campismo Popular. Recuerda que dispones de 5 horas para la confirmación o el link dejará de funcionar y deberá reenviar la solicitud.
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+
+©TiguerLabs 2023
+{% endautoescape %}

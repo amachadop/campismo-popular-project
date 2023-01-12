@@ -1,0 +1,110 @@
+{% extends 'layout/default.html' %}
+
+{% block head %}
+    <title>Buscar excursiones</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
+{% endblock head %}
+
+{% block body %}
+
+    <main class="min-vh-100 container-fluid">
+
+        <div class="row">
+
+            <!-- Barra de Filtros -->
+            <div class="col-xl-auto">
+
+                <button class="mynav-item d-xl-none mt-3 w-100" style="justify-content: center; border: 0" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">
+                    <span class="material-symbols-rounded">filter_alt</span> <strong>Filtros</strong>
+                </button>
+
+                <div class="offcanvas-xl offcanvas-start bg-light" style="width: 300px;" tabindex="-1" id="offcanvasResponsive"
+                    aria-labelledby="offcanvasResponsiveLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Filtros</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+
+                        <ul class="list-group mt-3">
+
+                            <li class="list-group-item border-0 list-group-item-primary shadow fw-bold">
+                                <div class="row">
+                                    <div class="col-10">
+                                        Búsqueda
+                                    </div>
+                                    <div class="col-2">
+                                        {% load static %}
+                                        <img src="{% static 'img/refrescar.svg' %}" role="button" id="btnRefresh">
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item bg-light border-0">
+                                <div class="row mt-2 mb-3">
+
+                                    <div class="col-sm">
+                                        <label class="mb-2 float-start fw-semibold" for="precioMin">Precio
+                                            Min:</label>
+                                        <input type="number" min="0" max="10000" class="form-control" id="precioMin">
+                                    </div>
+
+                                    <div class="col-sm">
+                                        <label class="mb-2 float-start fw-semibold" for="precioMax">Precio
+                                            Max:</label>
+                                        <input type="number" class="form-control" id="precioMax" min="0" max="10000">
+                                    </div>
+
+                                    <div class="form-check mt-4">
+                                        <input class="form-check-input" type="checkbox" value="" id="checkDisponible" checked>
+                                        <label class="form-check-label" for="checkDisponible">
+                                            Encontrar solo excursiones disponibles
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Contenedor de excursiones -->
+            <div class="col-xl min-vh-100">
+                <div class="container-fluid">
+
+                    <div class="d-flex mt-3 mb-3">
+                        <input class="form-control me-2" type="search" placeholder="Buscar excursión..."
+                            aria-label="Search" id="keywordsSerch">
+                        <button id="btn_buscar" class="btn btn-primary" type="submit">Buscar</button>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-lg-4 g-4 mt-3 mb-3" id="excContainer">
+                        <!-- Contenedor de excursiones -->
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+{% endblock body %}
+
+{% block js %}
+    {% load static %}
+    <script src="{% static 'js/buscarExcursion.js' %}"></script>
+{% endblock js %}

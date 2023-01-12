@@ -1,0 +1,123 @@
+{% extends 'layout/panel.html' %}
+
+{% block head %}
+    <title>Gestionar Provincias</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+{% endblock head %}
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <div class="card border-0 shadow mt-4">
+            <div class="card-header list-group-item-dark p-3 d-flex align-items-center">
+                <strong class="fw-bolder">Provincias</strong>
+
+                <form method="post" class="ms-auto">
+                    <div class="d-flex">
+                        {% csrf_token %}
+                        {{form.nombre}}
+
+                        {% load user_tags %}
+                        {% if request.user|has_perm:"campismo.add_provincia" %}
+                            <button class="btn btn-primary pt-2 pb-2 ms-2" type="submit">
+                                <div class="d-flex">
+                                    <span class="material-symbols-rounded text-light me-2">add</span>
+                                    Nueva Provincia
+                                </div>
+                            </button>
+                        {% endif %}
+                        
+
+                    </div>
+                </form>
+
+            </div>
+            <div class="card-body bg-light">
+
+                <table class="table table-light table-striped table-borderless">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="w-100">Provincia</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in provincias %}
+                        <tr>
+                            <td>{{p.nombre}}</td>
+                            <td>
+                                <div class="d-flex">
+                                    
+                                    {% if request.user|has_perm:"campismo.change_provincia" %}
+                                        <button onclick="showModal('{{p.nombre}}',{{p.id}})" class="btn btn-primary ms-1"><span class="material-symbols-rounded">edit_square</span></button>
+                                    {% endif %}
+
+                                    {% if request.user|has_perm:"campismo.delete_provincia" %}
+                                        <a href="{% url 'eliminar_provincias' p.id %}" class="btn btn-danger ms-1"><span class="material-symbols-rounded">delete</span></a>
+                                    {% endif %}
+                                
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+    
+{% endblock body %}
+
+{% block js %}
+
+ <script type="text/javascript">
+    var modalWrap = null;
+    const showModal = (nombre, id) => {
+
+        if (modalWrap !== null) {
+            modalWrap.remove();
+        }
+
+        modalWrap = document.createElement('div');
+
+        modalWrap.innerHTML = `
+            <div class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">Editar provincia: ${nombre}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <form name="formulario" method="post" class="ms-auto" action="editar/${id}">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Provincia" value="${nombre}" required/>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="enviar()" >Guardar Cambios</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        `;
+
+        document.body.append(modalWrap);
+
+        var modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
+        modal.show();
+    };
+
+    enviar = () =>{
+        document.formulario.submit();
+    };
+
+ </script>
+
+{% endblock js %}

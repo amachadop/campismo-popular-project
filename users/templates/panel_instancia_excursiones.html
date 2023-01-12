@@ -1,0 +1,94 @@
+{% extends 'layout/panel.html' %}
+
+{% block head %}
+    <title>Excursión: {{object.nombre}}</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+{% endblock head %}
+
+{% block body %}
+
+{% load user_tags %}
+{% if request.user|has_perm:"campismo.add_instanciaexcursion" %}
+    <div class="card border-0 shadow mt-4">
+        <div class="card-header list-group-item-dark p-3 d-flex">
+            <strong class="fw-bolder">Añadir instancia</strong>
+        </div>
+        <div class="card-body bg-light">
+            <form method="post" action="{% url 'listar_instancias' object.id %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="fecha" class="fw-semibold text-dark mb-3">Fecha:</label>
+                    {{form.fecha}}
+                </div>
+
+                <div class="mb-4">
+                    <label for="hora" class="fw-semibold text-dark mb-3">Hora:</label>
+                    {{form.hora}}
+                </div>
+
+                <div class="mb-4">
+                    <label for="estado" class="fw-semibold text-dark mb-3">Estado:</label>
+                    {{form.estado}}
+                </div>
+
+                <div class="mb-4">
+                    <label for="capacidad" class="fw-semibold text-dark mb-3">Capacidad:</label>
+                    {{form.capacidad}}
+                </div>
+
+                <div class="d-flex">
+                    <button class="btn btn-primary pt-2 pb-2 ms-auto" type="submit">
+                        <div class="d-flex">
+                            <span class="material-symbols-rounded text-light me-2">today</span>
+                            Añadir
+                        </div>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>                
+{% endif %}
+
+
+
+<div class="card border-0 shadow mt-4 mb-4">
+    <div class="card-header list-group-item-dark p-3 d-flex">
+        <strong class="fw-bolder">Instancias de {{object.nombre}}</strong>
+    </div>
+    <div class="card-body bg-light">
+        <table class="table table-light table-striped table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Capacidad</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in instancias %}
+                    <tr>
+                        <td>{{i.fecha}}</td>
+                        <td>{{i.hora}}</td>
+                        <td>{{i.estado}}</td>
+                        <td>{{i.capacidad}}</td>
+                        <td>
+                            <div class="d-flex">
+
+                                {% if request.user|has_perm:"campismo.delete_instaciaexcursion" %}
+                                    <a href="{% url 'eliminar_instancias' object.id i.id %}" class="btn btn-danger ms-1"><span class="material-symbols-rounded">delete</span></a>
+                                {% endif %}
+                                
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+      </table>
+    </div>
+</div>
+{% endblock body %}

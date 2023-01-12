@@ -1,0 +1,93 @@
+{% extends 'layout/panel.html' %}
+
+{% block head %}
+    <title>Editar rol: {{object.name}}</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+{% endblock head %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+    <div class="card border-0 shadow mt-4">
+        <div class="card-header list-group-item-dark p-3 d-flex align-items-center">
+            <strong class="fw-bolder">Editar rol</strong>
+
+            <form method="post" class="ms-auto">
+                <div class="d-flex">
+                    {% csrf_token %}
+                    {{form.name}}
+
+                    <button class="btn btn-primary pt-2 pb-2 ms-2" type="submit">
+                        <div class="d-flex">
+                            <span class="material-symbols-rounded text-light me-2">edit</span>
+                            Editar
+                        </div>
+                    </button>
+
+                </div>
+            </form>
+
+        </div>
+        <div class="card-body bg-light">
+
+            <form action="{% url 'agregar_permisos' object.id %}" method="post" class="w-100">
+                {% csrf_token %}
+                <div class="d-flex mb-4 justify-content-center">
+
+                    <select name="permiso" id="selectPermisos" class="form-select w-auto" required>
+                        <option value="" selected>Seleccionar permiso...</option>
+                        {% for p in permisos %}
+                            <option value="{{p.name}}">{{p.name}} | {{p.content_type}} | {{p.codename}} </option>
+                        {% endfor %}
+                    </select>
+    
+                    <button class="btn btn-primary pt-2 pb-2 ms-2 w-auto" type="submit">
+                        <div class="d-flex">
+                            <span class="material-symbols-rounded text-light me-2">add</span>
+                            Añadir Permiso
+                        </div>
+                    </button>
+    
+                </div>
+            </form>
+
+            <table class="table table-light table-striped table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">ContentType</th>
+                    <th scope="col">Codename</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for p in object.permissions.all %}
+                    <tr>
+                        <td>{{p.name}}</td>
+                        <td>{{p.content_type}}</td>
+                        <td>{{p.codename}}</td>
+                        <td>
+                            <div class="d-flex">
+                            
+                                <a href="{% url 'remover_permisos' object.id p.id %}" class="btn btn-danger ms-1"><span class="material-symbols-rounded">remove</span></a>
+
+                            </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock body %}
+
+{% block js %}
+
+{% endblock js %}

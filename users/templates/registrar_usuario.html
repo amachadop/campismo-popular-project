@@ -1,0 +1,103 @@
+{% extends 'layout/sesion.html' %}
+
+{% block head %}
+    <title>Crear Usuario</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+{% endblock head %}
+
+{% block body %}
+
+    <div class="card card-body border-1 bg-light p-5 text-center object-up">
+
+        <h1 class="mt-3 mb-2">Crear Usuario</h1>
+        <p>Ya tengo una cuenta. <a href="{% url 'iniciar_sesion' %}" class="link-primary text-decoration-none">Autenticarme</a>
+
+        <form method="post" class="mt-4" name="formulario">
+            {% csrf_token %}
+            <div class="input-group mb-1">
+                <input type="text" name="username" class="form-control {%if error == "user" %}invalid-form{%endif%}" id="floatingInput" style="height: 55px"
+                    placeholder="Usuario"
+                    required>
+            </div>
+            <p id="messageUser" class="mb-4 text-danger text-start fw-lighter">{%if error == "user" %}Este usuario ya existe{%endif%}</p>
+
+            <div class="input-group mb-1">
+                <input type="email" name="email" class="form-control {%if error == "email" %}invalid-form{%endif%}" id="floatingEmail" style="height: 55px"
+                    placeholder="Correo electrónico"
+                    required>
+            </div>
+            <p id="messageEmail" class="mb-4 text-danger text-start fw-lighter">{%if error == "email" %}El correo electrónico seleccionado ya está en uso{%endif%}</p>
+
+            <div class="d-flex">
+
+                <div class="w-100 me-1">
+                    <div class="input-group mb-1">
+                        <input type="text" name="nombre" class="form-control" id="floatingNombre" style="height: 55px"
+                            placeholder="Nombre"
+                            required>
+                    </div>
+                    <p id="messageNombre" class="mb-4 text-start fw-lighter"></p>
+                </div>
+
+                <div class="w-100 ms-1">
+                    <div class="input-group mb-1">
+                        <input type="text" name="apellidos" class="form-control" id="floatingApellidos" style="height: 55px"
+                            placeholder="Apellidos"
+                            required>
+                    </div>
+                    <p id="messageApellidos" class="mb-4 text-start fw-lighter"></p>
+                </div>
+
+            </div>
+
+            <select class="form-select mb-4" name="pais" style="height: 55px;" id="selectPais">
+                <option selected value="">Selecciona un país</option>
+                <option value="Cuba">Cuba</option>
+            </select>
+
+            <div class="d-flex">
+
+                <div class="w-100 me-1">
+                    <div class="input-group mb-1">
+                        <input type="password" name="password1" class="form-control" id="floatingPassword1"
+                            placeholder="Contraseña"
+                            aria-describedby="basic-addon1" style="height: 55px" required>
+                        <span class="input-group-text" id="basic-addon1"> <span
+                            class="material-symbols-rounded cursor" id="visible_pass">visibility</span></span>
+                    </div>
+                    <p id="messagePassword1" class="mb-4 text-start fw-lighter"></p>
+                </div>
+
+                <div class="w-100 ms-1">
+                    <div class="input-group mb-1">
+                        <input type="password" name="password2" class="form-control {%if error == "pass" %}invalid-form{%endif%}" id="floatingPassword2"
+                            placeholder="Repetir contraseña"
+                            aria-describedby="basic-addon2" style="height: 55px" required>
+                        <span class="input-group-text" id="basic-addon2"> <span
+                            class="material-symbols-rounded cursor" id="visible_pass2">visibility</span></span>
+                    </div>
+                    <p id="messagePassword2" class="mb-4 text-danger text-start fw-lighter">{%if error == "pass" %}Las contraseñas no coinciden{%endif%}</p>
+                </div>
+
+            </div>
+
+
+        </form>
+
+        <button class="myBtn mt-3" onclick="enviar_formlario()">Registrar</button>
+
+        <p class="mt-4 text-dark fw-lighter">©2022 <strong class="text-primary cursor">Tiguerlabs.</strong> All
+            rights reserved</p>
+
+    </div>
+
+{% endblock body %}
+
+{% block js %}
+
+    {% load static %}
+    <script src="{% static 'js/registrar_usuario.js' %}"></script>
+
+{% endblock js %}

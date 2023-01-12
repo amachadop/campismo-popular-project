@@ -1,0 +1,231 @@
+:root {
+    --blue-primary: #cfe2ff;
+    --blue-hover: #a0bbe5;
+    --red-hover: #f8d7da;
+    --red: #dc3545;
+    --red-primary: #f1aeb5;
+    --blue: #0d6efd;
+    --green: #0f5132;
+    --green-hover: #75b798;
+    --green-primary: #d1e7dd;
+    --blue-dark: #052c65;
+    --btn-more-primary: #cacacad0;
+    --btn-more-hover: #464646;
+
+}
+
+.mynav-item {
+    display: flex;
+    padding: 8px 18px;
+    text-decoration: none;
+    background-color: transparent;
+    color: darkgray;
+    margin-left: 2px;
+    margin-right: 2px;
+    align-items: center;
+}
+
+.mynav-item:hover {
+    background-color: var(--blue-primary);
+    border-radius: 10px;
+    color: var(--blue);
+}
+
+.menu-item {
+    display: flex;
+    padding: 10px 50px;
+    background-color: #f8f9fa;
+    color: #212529;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    align-items: center;
+}
+
+.myBtn {
+
+    background-color: var(--blue-primary);
+    border: none;
+    color: var(--blue);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 3px;
+    width: 100%;
+    font-weight: 600;
+}
+
+.myBtn:hover {
+
+    background-color: var(--blue);
+    color: #FFFFFF;
+
+}
+
+.myBtn-text {
+
+    background-color: transparent;
+    border: none;
+    color: #000000;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.myBtn-text:hover {
+
+    color: var(--blue);
+
+}
+
+.selected {
+    background-color: var(--blue-primary);
+    border-radius: 10px;
+    color: var(--blue);
+}
+
+.selected:hover {
+    background-color: var(--blue-hover);
+    border-radius: 10px;
+    color: var(--blue);
+}
+
+.red-item:hover {
+    background-color: var(--red-hover);
+    border-radius: 10px;
+    color: var(--red);
+}
+
+.mynav-item-green:hover {
+    background-color: var(--green-hover);
+    border-radius: 10px;
+    color: var(--green);
+}
+
+.more-item{
+    background-color: var(--btn-more-primary);
+    border-radius: 10px;
+    color: #212529;
+}
+
+.more-item:hover {
+    background-color: #212529;
+    border-radius: 10px;
+}
+
+.more-item:hover span{
+    color: #FFFFFF !important;
+}
+
+.object-up {
+    opacity: 0;
+    animation: slide_top 0.2s linear forwards;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+@keyframes slide_top {
+
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+
+}
+
+.mycard {
+
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--blue);
+    border-radius: 20px;
+
+}
+
+.mycard .poster {
+
+    position: relative;
+    overflow: hidden;
+
+}
+
+.mycard .poster::before {
+
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, var(--blue) 50%, transparent);
+    transition: 0.5s;
+    z-index: 1;
+
+}
+
+.mycard:hover .poster::before {
+
+    bottom: 0;
+
+}
+
+.mycard .poster img {
+
+    height: 400px;
+    transition: 0.5s;
+
+}
+
+.mycard:hover .poster img {
+
+    transform: translateY(-50px);
+    filter: blur(5px);
+
+}
+
+.mycard .details {
+
+    position: absolute;
+    width: 100%;
+    bottom: -55px;
+    z-index: 2;
+    transition: 0.5s;
+    padding: 20px;
+
+}
+
+.mycard:hover .details {
+
+    bottom: 0;
+
+}
+
+.mycard .details-campismo {
+
+    position: absolute;
+    width: 100%;
+    bottom: -140px;
+    z-index: 2;
+    transition: 0.5s;
+    padding: 20px;
+
+}
+
+.mycard:hover .details-campismo {
+
+    bottom: 0;
+
+}
+
+

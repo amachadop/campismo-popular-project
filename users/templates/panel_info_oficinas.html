@@ -1,0 +1,102 @@
+{% extends 'layout/panel.html' %}
+
+{% block head %}
+    <title>
+        {% if accion == 'crear' %}
+            Crear Oficina
+        {% else %}
+            Editar Oficina: {{object.username}}
+        {% endif %}
+    </title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+{% endblock head %}
+
+{% block body %}
+
+    <div class="container-fluid p-4">
+
+        <form action="{% if accion == 'crear' %}{% url 'crear_oficinas'%}{% else %}{% url 'editar_oficinas' object.id %}{% endif %}" method="POST">
+            {% csrf_token %}
+    
+            <div class="mb-4">
+                <label for="nombre" class="fw-semibold text-dark mb-3">Nombre:</label>
+                {{form.nombre}}
+            </div>
+
+            <div class="mb-4">
+                <label for="ubicacion" class="fw-semibold text-dark mb-3">Ubicación:</label>
+                {{form.ubicacion}}
+            </div>
+
+            <div class="mb-4">
+                <label for="direccion" class="fw-semibold text-dark mb-3">Dirección:</label>
+                {{form.direccion}}
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="fw-semibold text-dark mb-3">Correo electrónico:</label>
+                {{form.email}}
+            </div>
+
+            <div class="mb-4">
+                <label for="telefonos" class="fw-semibold text-dark mb-3">Teléfono:</label>
+                {{form.telefonos}}
+            </div>
+
+            <div class="mb-4">
+                <label for="lunes" class="fw-semibold text-dark mb-3">Lunes:</label>
+                {{form.h_lunes}}
+            </div>
+
+            <div class="mb-4">
+                <label for="martes" class="fw-semibold text-dark mb-3">Martes:</label>
+                {{form.h_martes}}
+            </div>
+
+            <div class="mb-4">
+                <label for="miercoles" class="fw-semibold text-dark mb-3">Miércoles:</label>
+                {{form.h_miercoles}}
+            </div>
+
+            <div class="mb-4">
+                <label for="jueves" class="fw-semibold text-dark mb-3">Jueves:</label>
+                {{form.h_jueves}}
+            </div>
+
+            <div class="mb-4">
+                <label for="viernes" class="fw-semibold text-dark mb-3">Viernes:</label>
+                {{form.h_viernes}}
+            </div>
+
+            <div class="mb-4">
+                <label for="sabado" class="fw-semibold text-dark mb-3">Sábado:</label>
+                {{form.h_sabado}}
+            </div>
+
+            <div class="mb-4">
+                <label for="domingo" class="fw-semibold text-dark mb-3">Domingo:</label>
+                {{form.h_domingo}}
+            </div>
+    
+            <div class="d-flex">
+
+                <button class="btn btn-primary ms-auto me-2" type="submit">
+                    {% if accion == 'crear' %}
+                        Crear
+                    {% else %}
+                        Guardar Cambios
+                    {% endif %}
+                </button>
+
+                <a class="btn btn-danger" href="{% url 'panel_oficinas' %}">Cancelar</a>
+    
+            </div>
+        </form>
+
+    </div>
+
+{% endblock body %}

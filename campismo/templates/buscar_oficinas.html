@@ -1,0 +1,158 @@
+{% extends 'layout/default.html' %}
+
+{% block head %}
+    <title>Oficinas de Reservación</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+
+{% endblock head %}
+
+{% block body %}
+
+<main class="min-vh-100 container-fluid">
+
+    <div class="m-4 d-flex">
+
+        <input type="search" class="form-control me-2" placeholder="Buscar oficina...." id="search">
+
+        <button type="button" class="btn btn-primary ms-2" id="buscar">Buscar</button>
+
+    </div>
+
+    <div class="row row-cols-1 row-cols-xxl-2 g-4 m-4" id="oficinaContainer">
+
+    </div>
+
+</main>
+
+{% endblock body %}
+
+
+{% block js %}
+<script>
+
+    window.addEventListener("load", async () => {
+        await buscarOficinas("*all");
+
+        buscar.addEventListener("click", () => {
+            if (search.value == "") {
+                buscarOficinas("*all");
+            }else{
+                buscarOficinas(search.value);
+            }
+
+        });
+    });
+
+    const buscarOficinas = async (keywords) => {
+        try {
+
+            const response = await fetch(`./${keywords}`);
+            const data = await response.json();
+
+            if (data.message == "success") {
+                actualizarOficinas(data.oficinas);
+            } else {
+                oficinaContainer.innerHTML = `<h6 class="text-success fw-semibold mb-3 text-center"> No se encontraron coincidencias </h6>`;
+            }
+
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    actualizarOficinas = (oficinas)=>{
+
+        let visual = ``;
+
+        oficinas.forEach((o)=>{
+
+            visual += `<div class="col">
+            <div class="card border-0 bg-dark shadow h-100">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <h2 class="fw-semibold mt-2 card-title text-light">${o.nombre}</h2>
+                        <h6 class="card-subtitle mb-2 text-muted mt-3">Ubicacion: ${o.ubicacion}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted mt-2">Direccion: ${o.direccion}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted mt-2">Correo:  ${o.email}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted mt-2">Teléfonos:  ${o.telefonos}</h6>
+
+                    </div>
+                    <table class="table table-light mt-4 mb-4 d-none d-md-block">
+                        <thead class="table-primary">
+                        <tr>
+                            <th scope="col">Horario</th>
+                            <th scope="col">Lunes</th>
+                            <th scope="col">Martes</th>
+                            <th scope="col">Miércoles</th>
+                            <th scope="col">Jueves</th>
+                            <th scope="col">Viernes</th>
+                            <th scope="col">Sábado</th>
+                            <th scope="col">Domingo</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="col">Hora</th>
+                            <th scope="col">${o.h_lunes}</th>
+                            <th scope="col">${o.h_martes}</th>
+                            <th scope="col">${o.h_miercoles}</th>
+                            <th scope="col">${o.h_jueves}</th>
+                            <th scope="col">${o.h_viernes}</th>
+                            <th scope="col">${o.h_sabado}</th>
+                            <th scope="col">${o.h_domingo}</th>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-warning mt-4 mb-4 d-block d-sm-block d-md-none" >
+                        <thead class="table-success">
+                        <tr>
+                            <th scope="col">Horario</th>
+                            <th scope="col">Hora</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="col">Lunes</th>
+                            <th scope="col">${o.h_lunes}</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Martes</th>
+                            <th scope="col">${o.h_martes}</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Miércoles</th>
+                            <th scope="col">${o.h_miercoles}</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Jueves</th>
+                            <th scope="col">${o.h_jueves}</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Viernes</th>
+                            <th scope="col">${o.h_viernes}</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Sábado</th>
+                            <th scope="col">${o.h_sabado}</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Domingo</th>
+                            <th scope="col">${o.h_domingo}</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>`;
+
+        });
+
+        oficinaContainer.innerHTML = visual;
+
+    };
+
+</script>
+{% endblock js %}

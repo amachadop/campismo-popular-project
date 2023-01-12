@@ -1,0 +1,25 @@
+{% extends 'layout/panel.html' %}
+
+{% block head %}
+    <title>Eliminar provincia: {{object.nombre}}</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+{% endblock head %}
+
+{% block body %}
+
+    <div class="card border-0 shadow">
+        <div class="card-header list-group-item-dark p-3">
+            <strong class="fw-bolder">Confirmar eliminación</strong>
+        </div>
+        <div class="card-body bg-light text-center p-5">
+            <p class="fw-lighter">¿Está seguro que desea eliminar la provincia <strong>{{object.nombre}}</strong> ?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock body %}

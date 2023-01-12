@@ -1,0 +1,134 @@
+:root {
+    --blue-primary: #cfe2ff;
+    --blue-hover: #a0bbe5;
+    --red-hover: #f8d7da;
+    --red: #dc3545;
+    --red-primary: #f1aeb5;
+    --blue: #0d6efd;
+    --green: #0f5132;
+    --green-hover: #75b798;
+    --green-primary: #d1e7dd;
+    --blue-dark: #052c65;
+
+
+}
+
+.invalid-form{
+
+    border-color: var(--red) !important; 
+
+}
+
+.invalid-form:focus{
+
+        box-shadow: none; 
+        transition: all 0.1s linear; 
+        border-color: var(--red) !important; 
+        box-shadow: 0px 0px 2px 3px var(--red-primary) !important; 
+
+}
+
+.correct-form{
+
+    border-color: var(--green) !important; 
+
+}
+
+.correct-form:focus{
+
+        box-shadow: none; 
+        transition: all 0.1s linear; 
+        border-color: var(--green) !important; 
+        box-shadow: 0px 0px 2px 3px var(--green-hover) !important; 
+
+}
+
+.mynav-item {
+    display: flex;
+    padding: 8px 18px;
+    text-decoration: none;
+    background-color: transparent;
+    color: darkgray;
+    margin-left: 2px;
+    margin-right: 2px;
+    align-items: center;
+}
+
+.mynav-item:hover {
+    background-color: var(--blue-primary);
+    border-radius: 10px;
+    color: var(--blue);
+}
+
+.menu-item {
+    display: flex;
+    padding: 10px 50px;
+    background-color: #f8f9fa;
+    color: #212529;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    align-items: center;
+}
+
+.myBtn {
+
+    background-color: var(--blue-primary);
+    border: none;
+    color: var(--blue);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 3px;
+    width: 100%;
+    font-weight: 600;
+}
+
+.myBtn:hover {
+
+    background-color: var(--blue);
+    color: #FFFFFF;
+
+}
+
+.myBtn-text {
+
+    background-color: transparent;
+    border: none;
+    color: #000000;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.myBtn-text:hover {
+
+    color: var(--blue);
+
+}
+
+.object-up {
+    opacity: 0;
+    animation: slide_top 0.2s linear forwards;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+@keyframes slide_top {
+
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+
+}

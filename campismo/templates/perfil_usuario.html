@@ -1,0 +1,193 @@
+{% extends 'layout/default.html' %}
+
+{% block head %}
+    <title>
+        {% if usuario.username == user.username %}
+            Mi Perfil
+        {% else %}
+            Perfil de {{usuario.username}}
+        {% endif %}
+    </title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login_styles.css' %}">
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+
+    <style>
+        .contenedor{
+            width: 50%;
+        }
+
+        @media (max-width: 991px) {
+            .contenedor{
+                width: 75%;
+            }
+        }
+    </style>
+{% endblock head %}
+
+{% block body %}
+
+    <p class="visually-hidden" id="error">{{error}}</p>
+    <div id="token" class="visually-hidden">
+        {% csrf_token %}
+    </div>
+
+    <main class="min-vh-100">
+        <div class="w-100 justify-content-center d-flex">
+            <div class="contenedor p-2 mt-3 mb-3">
+    
+                <div class="card border-0 shadow-sm">
+                    {% load static %}
+                    <img src="{% static 'img/portada_usuario.svg' %}" class="card-img-top">
+                    <div class="card-body">
+    
+                        <div class="w-100 position-relative">
+                            <div class="d-flex w-100 position-absolute top-0 start-50 translate-middle" style="align-items: center;">
+                        
+                                {% if usuario.foto == '' %}
+                                    <div class="w-25 position-relative">
+                                        {% load static %}
+                                        <img src="{% static 'img/perfil.jpg' %}" class="rounded-circle border border-5 border-light w-100">
+    
+                                        {% if usuario.username == user.username %}
+                                            <a href="{% url 'cambiar_foto' user.username %}" style="text-decoration: none;" class="text-dark">
+                                                <span class="material-symbols-rounded position-absolute bottom-0 start-50 ms-5 fs-2 bg-light p-3 rounded-circle shadow" style="cursor: pointer;">add_a_photo</span>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <div class="w-25 position-relative">
+                                        {% load static %}
+                                        <img src="{{usuario.foto.url}}" class="rounded-circle border border-5 border-light w-100" style="height: 200px;">        
+    
+                                        {% if usuario.username == user.username %}
+                                            <a href="{% url 'cambiar_foto' user.username %}" style="text-decoration: none;" class="text-dark">
+                                                <span class="material-symbols-rounded position-absolute bottom-0 start-50 ms-5 fs-2 bg-light p-3 rounded-circle shadow" style="cursor: pointer;">add_a_photo</span>
+                                            </a>
+                                        {% endif %}
+                                    </div>            
+                                {% endif %} 
+                            
+                                <div class="ms-3 mt-5">
+    
+                                    <div class="d-flex mt-4">
+                                        <h5 class="fw-semibold text-dark">{{usuario.username}}</h5>
+                                        {% if usuario.is_verificado %}<span class="material-symbols-rounded text-primary ms-2">verified</span>{% endif %}
+                                    </div>
+    
+                                    <p class="text-secondary fw-light">{{usuario.nombre}} {{usuario.apellidos}}</p>
+                                </div>
+    
+                                {% if usuario.username == user.username %}
+                                    <a href="{% url 'editar_usuario' user.username %}" class="btn btn-outline-primary ms-auto align-item-center d-flex p-3 pt-2 pb-2 mt-5">
+                                        <span class="material-symbols-rounded me-1">edit</span>
+                                        Editar Perfil
+                                    </a>
+    
+                                    <div class="dropup">
+            
+                                        <div class="mynav-item more-item p-2 mt-5 ms-3" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="cursor: pointer;">
+                                            <span class="material-symbols-rounded text-dark p-1">more_vert</span>
+                                        </div>
+                                    
+                                        <div class="dropdown-menu dropdown-menu-lg-end border-0 shadow-sm object-up" style="width: 250px;">
+                
+                                            <div class="container-fluid">
+                
+                                                <ul class="list-group">
+                
+                                                    {% if not usuario.is_verificado %}
+                                                        <li style="list-style: none" class="mb-1">
+                                                            <a class="w-100 mynav-item" href="{% url 'verificar_usuario' user.username %}">
+                                                                <span class="material-symbols-rounded me-3">verified_user</span>
+                                                                Verificar Usuario
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                
+                                                    <li style="list-style: none" class="mb-1">
+                                                        <div class="w-100 mynav-item" onclick="cambiarPass('{{user.username}}');" style="cursor: pointer;">
+                                                            <span class="material-symbols-rounded me-3">password</span>
+                                                            Cambiar contraseña</div>
+                                                    </li>
+    
+                                                    <li style="list-style: none" class="mb-1">
+                                                        <a href="" class="w-100 mynav-item">
+                                                            <span class="material-symbols-rounded me-3">person_remove</span>
+                                                            Eliminar cuenta</a>
+                                                    </li>
+                
+                                                </ul>
+                
+                                            </div>
+                
+                                        </div>
+                                    </div>
+    
+                                {% endif %}
+        
+                            </div>
+                        </div>
+                        
+                        <div style="height: 120px;"></div>
+    
+                        <div class="d-flex p-4 pb-0">
+    
+                            <span class="material-symbols-rounded text-secondary">flag_circle</span>
+    
+                            <p class="text-secondary fw-light ms-2">{{usuario.pais}}</p>
+    
+                            <span class="material-symbols-rounded text-secondary ms-3">event_upcoming</span>
+    
+                            <p class="text-secondary fw-light ms-2">{{usuario.registrado}}</p>
+    
+                            {% if usuario.sexo == 'H' %}
+                                <span class="material-symbols-rounded text-secondary ms-3">man</span>
+                            {% elif usuario.sexo == 'M' %}
+                                <span class="material-symbols-rounded text-secondary ms-3">woman</span>
+                            {% endif %}
+    
+                        </div>
+    
+                    </div>
+                </div>
+    
+                {% if usuario.descripcion %}
+                    <div class="card border-0 shadow-sm p-3 mt-3">
+    
+                        <h3 class="fw-semibold text-dark">Acerca de</h3>
+    
+                        <p class="w-100 text-secondary fw-light">
+                            {{usuario.descripcion}}
+                        </p>
+    
+                    </div>
+                {% endif %}
+    
+            </div>
+        </div>
+    </main>
+
+    {% include 'layout/footer.html' %}
+
+{% endblock body %}
+
+{% block js %}
+    {% load static %}
+    <script src="{% static 'js/cambiar_pass.js' %}"></script>
+    <script src="{% static 'js/mensajes.js' %}"></script>
+    <script>
+
+        window.addEventListener("load", ()=>{
+            if(error.innerHTML != ""){
+                errorMessage(error.innerHTML);
+            }
+        });
+
+    </script>
+{% endblock js %}

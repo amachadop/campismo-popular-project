@@ -1,0 +1,340 @@
+{% extends 'layout/default.html' %}
+
+{% block head %}
+    <title>Bienvenido: Campismo Popular</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+
+{% endblock head %}
+
+{% block body %}
+
+    <main class="min-vh-100">
+
+        <div class="container-fluid p-5 h-100">
+
+            <div class="d-flex justify-content-center mt-3">
+                {% load static %}
+                <img src="{% static 'img/logo.png' %}" class="mt-5 w-25">
+            </div>
+    
+            <div class="d-flex justify-content-center mt-5">
+    
+                <h1 class="fw-bolder text-uppercase m-2">Grupo Empresarial Campismo Popular</h1>
+    
+            </div>
+    
+            <div class="d-flex justify-content-center">
+    
+                <p class="fw-light w-75 mt-5 text-center lh-lg">El Campismo es una oferta recreativa, con 34
+                    años de
+                    experiencia, que surge
+                    en Pinar del Río, en mayo de 1981, y desde sus inicios le ofrece como principales opciones:
+                    descubrir,
+                    disfrutar y proteger la Naturaleza; admirar la amplia diversidad de la flora y la fauna
+                    cubanas;
+                    contemplar paisajes de alto valor geográfico; descansar en un ambiente natural y sano; y
+                    conocer los
+                    valores históricos-culturales que rodean a más de 92 instalaciones, 4 villas internacionales
+                    y un
+                    Parque
+                    Turístico, que posee el Grupo Empresarial Campismo Popular, en entornos naturales de nuestra
+                    isla,
+                    contribuyendo a la formación de una Cultura de la Naturaleza y destinadas fundamentalmente
+                    al
+                    Turismo
+                    nacional y al internacional.</p>
+    
+            </div>
+    
+            <div class="d-flex justify-content-center mt-5">
+    
+                <a href="" class="btn btn-outline-primary" style="width: 200px">Leer Más</a>
+    
+            </div>
+    
+        </div>
+    
+        <!-- Mision -->
+        <div class="bg-dark p-5 mt-5">
+    
+            <figure class="text-center p-5">
+                <blockquote class="blockquote text-light">
+                    <p>“Brindar servicios turísticos con calidad; en un medio ambiente sano y en contacto directo
+                        con la
+                        Naturaleza, contando con un equipo de profesionales y los medios necesarios para una
+                        estancia
+                        feliz”.</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    Nuestra misión
+                </figcaption>
+            </figure>
+    
+        </div>
+    
+        <!-- Contenedor de campismos -->
+    <div class="d-flex justify-content-center mt-5">
+
+        <h1 class="fw-bolder text-uppercase text-dark m-2 mt-5">Más de {{campismos.count}} Bases de Campismos</h1>
+
+    </div>
+
+    <div class="w-100 d-flex justify-content-center">
+
+        <div class="w-75 m-5 mt-4">
+
+            <div id="carouselExampleControls1" class="carousel slide" data-bs-ride="carousel">
+
+                <div class="carousel-inner">
+
+                    {% with ''|center:5 as range %}
+                        {% for c in campismos %}
+
+                            {% if forloop.counter == 1 %}
+                                <div class="carousel-item active">
+                            {% else %}
+                                <div class="carousel-item">
+                            {% endif %}
+                                    <img src="{{c.foto.url}}" class="d-block w-100 rounded" alt="...">
+                                </div>
+
+                        {% endfor %}
+                    {% endwith %}
+
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls1"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls1"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-center">
+
+            <a href="{% url 'campismos' %}" class="btn btn-primary mt-2 mb-5 p-3 ps-5 pe-5">
+                <h3 class="fw-light ms-5 me-5">Explorar
+                    Campismos</h3>
+            </a>
+
+        </div>
+
+    </div>
+
+        <!-- Vision -->
+        <div class="bg-dark p-5 mt-5">
+    
+            <figure class="text-center p-5">
+                <blockquote class="blockquote text-light">
+                    <p>“Ser los preferidos en el Turismo de Naturaleza”</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    Nuestra visión
+                </figcaption>
+            </figure>
+    
+        </div>
+    
+        <div class="d-flex justify-content-center mt-5">
+
+            <h1 class="fw-bolder text-uppercase text-dark m-2 mt-5">Más de {{excursiones.count}} Excursiones</h1>
+    
+        </div>
+    
+        <div class="w-100 d-flex justify-content-center">
+    
+            <div class="w-75 m-5 mt-4">
+    
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    
+                    <div class="carousel-inner">
+    
+                        {% with ''|center:5 as range %}
+                            {% for e in excursiones %}
+        
+                                {% if forloop.counter == 1 %}
+                                    <div class="carousel-item active">
+                                {% else %}
+                                    <div class="carousel-item">
+                                {% endif %}
+                                        <img src="../media/{{ e.foto }}" class="d-block w-100 rounded" alt="...">
+                                    </div>
+        
+                            {% endfor %}
+                        {% endwith %}
+    
+                        </div>
+    
+                        <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExampleControls"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+    
+                        <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselExampleControls"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div class="d-flex justify-content-center">
+    
+                <a href="{% url 'excursiones' %}" class="btn btn-primary mt-2 mb-5 p-3 ps-5 pe-5">
+                    <h3 class="fw-light ms-5 me-5">Explorar
+                        Excursiones</h3>
+                </a>
+    
+            </div>
+    
+        </div>
+
+        <div class="row m-5">
+    
+            <div class="col-md-4 mt-5">
+    
+                <div class="card border-0 border-0 bg-dark shadow p-3 h-100">
+    
+                    <div class="d-flex justify-content-center">
+    
+                        {% load static %}
+                        <img src="{% static 'img/naturaleza.svg' %}" class="w-50">
+    
+                    </div>
+    
+                    <div class="d-flex justify-content-center">
+    
+                        <h5 class="fw-bolder text-uppercase text-light m-2">Disfruta de la Naturaleza</h5>
+    
+                    </div>
+    
+                    <div class="d-flex justify-content-center">
+    
+                        <p class="fw-semibold w-75 mt-3 text-center text-light lh-lg">Mediante senderos,
+                            caminatas,
+                            recorridos y excursiones, en compañía de guías, se puede disfrutar de los valores
+                            naturales
+                            e histórico-culturales del entorno. Resultan de particular interés, las ofertas
+                            especiales
+                            en campismos cercanos a sitios declarados Monumentos Locales, Nacionales o
+                            Patrimoniales,
+                            por su relevante contribución al acervo cultural de nuestros campistas.</p>
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div class="col-md-4 mt-5">
+    
+                <div class="card border-0 border-0 bg-dark shadow p-3 h-100">
+    
+                    <div class="d-flex justify-content-center">
+    
+                        {% load static %}
+                        <img src="{% static 'img/gastronomia.svg' %}" class="w-50">
+    
+                    </div>
+    
+                    <div class="d-flex justify-content-center">
+    
+                        <h5 class="fw-bolder text-uppercase text-light m-2">Siente el sabor</h5>
+    
+                    </div>
+    
+                    <div class="d-flex justify-content-center">
+    
+                        <p class="fw-semibold w-75 mt-3 text-center text-light lh-lg">La oferta gastronómica,
+                            teniendo
+                            en cuenta las características de nuestro producto turístico para el cliente
+                            nacional,
+                            así
+                            como el diseño de sus servicios, se brinda de diversas formas: mediante restaurantes
+                            con
+                            servicio plateado o de cantina y cafeterías con alimentos ligeros.
+    
+                        </p>
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div class="col-md-4 mt-5">
+    
+                <div class="card border-0 border-0 bg-dark shadow p-3  h-100">
+    
+                    <div class="d-flex justify-content-center">
+    
+                        {% load static %}
+                        <img src="{% static 'img/servicio.svg' %}" class="w-50">
+    
+                    </div>
+    
+                    <div class="d-flex justify-content-center">
+    
+                        <h5 class="fw-bolder text-uppercase text-light m-2">Desde la comodidad de tu casa</h5>
+    
+                    </div>
+    
+                    <div class="d-flex justify-content-center">
+    
+                        <p class="fw-semibold w-75 mt-3 text-center text-light lh-lg">Gracias a esta nueva
+                            página
+                            web,
+                            usted podrá conocer de nuestros servicos de manera online, así como reservar
+                            nuestras
+                            bases
+                            de campismos o excursiones desde la comodidad de su casa, sin tener que acudir a
+                            nuestras
+                            oficinas de reservación.</p>
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        <div class="m-5 d-flex justify-content-center">
+    
+            {% load static %}
+            <a href="https://www.mintur.gob.cu/">
+                <img src="{% static 'img/mintur.png' %}" style="width: 150px" class="m-5">
+            </a>
+    
+            <a href="https://www.cubatravel.cu/">
+                <img src="{% static 'img/cuba_travel.png' %}" style="width: 150px" class="m-5">
+            </a>
+    
+            <a href="https://www.ecoturcuba.tur.cu/">
+                <img src="{% static 'img/ecotur.png' %}" style="width: 150px" class="m-5">
+            </a>
+    
+        </div>
+
+    </main>
+
+{% include 'layout/footer.html' %}
+
+{% endblock body %}

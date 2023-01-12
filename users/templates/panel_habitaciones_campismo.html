@@ -1,0 +1,141 @@
+{% extends 'layout/panel.html' %}
+
+{% block head %}
+    <title>Campismo: {{object.nombre}}</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+{% endblock head %}
+
+{% block body %}
+
+{% load user_tags %}
+{% if request.user|has_perm:"campismo.add_habitacioncampismo" %}
+    <div class="card border-0 shadow mt-4">
+        <div class="card-header list-group-item-dark p-3 d-flex">
+            <strong class="fw-bolder">Añadir habitación</strong>
+        </div>
+        <div class="card-body bg-light">
+            <form method="post" action="{% url 'listar_habitaciones' object.id %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="idHab" class="fw-semibold text-dark mb-3">No. Habitación:</label>
+                    {{form.idHab}}
+                </div>
+
+                <div class="mb-4">
+                    <label for="cantidadHuespedes" class="fw-semibold text-dark mb-3">Cantidad de huéspedes:</label>
+                    {{form.cantidadHuespedes}}
+                </div>
+
+                <div class="mb-4">
+                    <label for="estado" class="fw-semibold text-dark mb-3">Estado:</label>
+                    {{form.estado}}
+                </div>
+
+                <div class="d-flex">
+                    <button class="btn btn-primary pt-2 pb-2 ms-auto" type="submit">
+                        <div class="d-flex">
+                            <span class="material-symbols-rounded text-light me-2">bedroom_parent</span>
+                            Añadir
+                        </div>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>                
+{% endif %}
+
+
+
+<div class="card border-0 shadow mt-4 mb-4">
+    <div class="card-header list-group-item-dark p-3 d-flex">
+        <strong class="fw-bolder">Habitaciones de {{object.nombre}}</strong>
+    </div>
+    <div class="card-body bg-light">
+        <table class="table table-light table-striped table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">No. Habitación</th>
+                    <th scope="col">Cantidad Huéspedes</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for h in habitaciones %}
+                    <tr>
+                        <td>{{h.idHab}}</td>
+                        <td>{{h.cantidadHuespedes}}</td>
+                        <td>{{h.estado}}</td>
+                        <td>
+                            <div class="d-flex">
+                                
+                                {% if request.user|has_perm:"campismo.change_habitacioncampismo" %}
+                                    <button onclick="showModal('{{h.idHab}}', '{{h.estado}}')" class="btn btn-primary ms-1"><span class="material-symbols-rounded">edit</span></button>
+                                {% endif %}
+
+                                {% if request.user|has_perm:"campismo.delete_habitacioncampismo" %}
+                                    <a href="{% url 'eliminar_habitaciones' object.id h.idHab %}" class="btn btn-danger ms-1"><span class="material-symbols-rounded">delete</span></a>
+                                {% endif %}
+                                
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+      </table>
+    </div>
+</div>
+{% endblock body %}
+
+{% block js %}
+<script type="text/javascript">
+    var modalWrap = null;
+    const showModal = (idhab,estado) => {
+
+        if (modalWrap !== null) {
+            modalWrap.remove();
+        }
+
+        modalWrap = document.createElement('div');
+
+        modalWrap.innerHTML = `
+            <div class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">Editar habitación: ${idhab}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <form name="formulario" method="post"action="editar/${idhab}">
+                            {% csrf_token %}
+                            <select class="form-select mb-4" name="estado" style="height: 55px;" id="selectPais">
+                                <option {% if estado == 'D' %}selected{% endif %} value="D">Disponible</option>
+                                <option {% if estado == 'N' %}selected{% endif %} value="N">No Disponible</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="enviar()" >Guardar Cambios</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        `;
+
+        document.body.append(modalWrap);
+
+        var modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
+        modal.show();
+    };
+
+    enviar = () =>{
+        document.formulario.submit();
+    };
+
+ </script>
+{% endblock js %}

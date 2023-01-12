@@ -1,0 +1,78 @@
+{% extends 'layout/panel.html' %}
+
+{% block head %}
+    <title>Administrar roles</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+{% endblock head %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+    <div class="card border-0 shadow mt-4">
+        <div class="card-header list-group-item-dark p-3 d-flex align-items-center">
+            <strong class="fw-bolder">Roles del Sistema</strong>
+
+            <form method="post" class="ms-auto">
+                <div class="d-flex">
+                    {% csrf_token %}
+                    {{form.name}}
+
+                    {% load user_tags %}
+                    {% if request.user|has_perm:"auth.add_group" %}
+                        <button class="btn btn-primary pt-2 pb-2 ms-2" type="submit">
+                            <div class="d-flex">
+                                <span class="material-symbols-rounded text-light me-2">add</span>
+                                 Añadir Rol
+                            </div>
+                        </button>
+                    {% endif %}
+                    
+
+                </div>
+            </form>
+
+        </div>
+        <div class="card-body bg-light">
+
+            <table class="table table-light table-striped table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col" class="w-100">Rol</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for g in grupos %}
+                    <tr>
+                        <td>{{g.name}}</td>
+                        <td>
+                            <div class="d-flex">
+                                
+                                {% if request.user|has_perm:"auth.change_group" %}
+                                    <a href="{% url 'editar_roles' g.id %}" class="btn btn-primary ms-1"><span class="material-symbols-rounded">edit_square</span></a>
+                                {% endif %}
+
+                                {% if request.user|has_perm:"auth.delete_group" %}
+                                    <a href="{% url 'eliminar_roles' g.id %}" class="btn btn-danger ms-1"><span class="material-symbols-rounded">delete</span></a>
+                                {% endif %}
+                               
+                            </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock body %}
+
+{% block js %}
+
+{% endblock js %}
