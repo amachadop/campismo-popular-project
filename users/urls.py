@@ -1,7 +1,9 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import EditarUsuario,Principal, IniciarSesion, RegistrarUsuario, AdminPermisos, AdminRoles, ListarUsuarios, EliminarUsuario, CrearUsuarios, EliminarRoles, EditarRoles
 from .views import EliminarInstancia,ListarInstancias,CrearExcursion,EditarExcursion,EliminarExcursion,CrearOficina,EditarOficina,EliminarOficina,editar_habitacion,EliminarHabitacionCampismo,ListarHabitacionesCampismo,EditarCampismo,EliminarCampismo,CrearCampismo,editar_provincia,agregar_permisos, remover_permisos, EliminarPermiso, desconectar, ListarProvincias, ListarCampismos, ListarExcursiones, ListarOficinas, EliminarProvincia
 from .views import activate, VerificarUsuario, activateEmail
+from django.views.static import serve
+import CampismoPopular2.settings
 
 urlpatterns = [
     path('administracion/', Principal.as_view(), name='panel_administrador'),
@@ -46,4 +48,8 @@ urlpatterns = [
     path('administracion/oficinas/crear/', CrearOficina.as_view(), name='crear_oficinas'),
     path('administracion/oficinas/editar/<int:pk>/', EditarOficina.as_view(), name='editar_oficinas'),
     path('administracion/oficinas/eliminar/<int:pk>/', EliminarOficina.as_view(), name='eliminar_oficinas'),
+    
+    re_path(r'^media/(?P<path>.*)$', serve, {
+        'document_root': CampismoPopular2.settings.MEDIA_ROOT,
+    }),
 ]
